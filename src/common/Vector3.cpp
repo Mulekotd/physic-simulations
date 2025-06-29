@@ -1,8 +1,7 @@
 #include <cmath>
 
+#include "common/Constants.hpp"
 #include "common/Vector3.hpp"
-
-constexpr float EPSILON = 1e-5f;
 
 // Constructors
 
@@ -60,9 +59,9 @@ Vector3& Vector3::operator/=(float scalar) {
 }
 
 bool Vector3::operator==(const Vector3& other) const {
-    return std::fabs(x - other.x) < EPSILON &&
-           std::fabs(y - other.y) < EPSILON &&
-           std::fabs(z - other.z) < EPSILON;
+    return std::fabs(x - other.x) < Constants::EPSILON &&
+           std::fabs(y - other.y) < Constants::EPSILON &&
+           std::fabs(z - other.z) < Constants::EPSILON;
 }
 
 bool Vector3::operator!=(const Vector3& other) const {

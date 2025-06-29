@@ -7,9 +7,9 @@
 
 namespace simulation {
     enum class Law : int {
-        First  = 1,   // Inércia: velocidade constante se F = 0
-        Second = 2,   // F = m·a
-        Third  = 3    // Ação = reação
+        First  = 1,
+        Second = 2,
+        Third  = 3
     };
 
     class Motion {
