@@ -10,7 +10,7 @@ class Particle {
 public:
     using Id = std::uint32_t;
 
-    explicit Particle(const Vector3& position = {}, const Vector3& velocity = {}, float mass = 1.0f, float radius = 0.05f);
+    explicit Particle(const Vector3& position = {}, const Vector3& velocity = {}, float mass = 1.0f, float radius = 1.0f);
 
     Id getId() const noexcept { return m_id; }
     const Vector3& getPosition() const noexcept { return m_position; }
@@ -24,15 +24,21 @@ public:
     void setMass(float m) noexcept { m_mass = m; }
     void setRadius(float r) noexcept { m_radius = r; }
 
-    void draw(const Camera2D& camera) const;
+    void draw() const;
+    
+    void addForce(const Vector3& f) noexcept { m_force += f; }
+    void clearForces() noexcept { m_force = {}; }
 
-    void applyForce(const Vector3& force, float dt) noexcept;
-    void integrate (float dt) noexcept;
+    void integrate(float dt) noexcept {
+        m_velocity += (m_force * (1.0f / m_mass)) * dt; // v += (F/m) * dt
+        m_position += m_velocity * dt; // x += v * dt
+
+        clearForces();
+    }
 
 private:
     Id       m_id;
-    Vector3  m_position;
-    Vector3  m_velocity;
+    Vector3  m_force, m_position, m_velocity;
     float    m_mass, m_radius;
 
     inline static Id m_nextId{0};

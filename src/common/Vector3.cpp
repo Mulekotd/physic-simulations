@@ -91,3 +91,7 @@ void Vector3::normalize() {
         z /= len;
     }
 }
+
+Vector3 operator*(float scalar, const Vector3 other) {
+    return Vector3(other.x * scalar, other.y * scalar, other.z * scalar);
+}

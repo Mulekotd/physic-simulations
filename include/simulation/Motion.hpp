@@ -1,32 +1,33 @@
 #pragma once
 
 #include <vector>
-#include <cstddef>
+#include <functional>
 
+#include "core/Field.hpp"
 #include "core/Particle.hpp"
 
 namespace simulation {
-    enum class Law : int {
-        First  = 1,
-        Second = 2,
-        Third  = 3
-    };
+    
+    using ForceFunc = std::function<void(Particle&, float)>;
 
     class Motion {
     public:
-        Motion(std::size_t particleCount, Law law = Law::First);
+        Motion(std::size_t particleCount,
+               Field& world,
+               ForceFunc forceGenerator   = nullptr,
+               float    restitution       = 0.9f);
 
         void update(float dt);
-        bool verifyIds() const;
 
         const std::vector<Particle>& particles() const noexcept { return m_particles; }
 
     private:
         std::vector<Particle> m_particles;
-        Law                   m_law;
+        Field&                m_field;
+        ForceFunc             m_forceGen;
+        float                 m_restitution;
 
-        void applyFirst (float dt);
-        void applySecond(float dt);
-        void applyThird (float dt);
+        void resolveBounds(Particle&) const;
+        void resolveParticleCollision(Particle& a, Particle& b) const;
     };
 }

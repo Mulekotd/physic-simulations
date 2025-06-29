@@ -28,7 +28,7 @@ namespace Application {
         glClear(GL_COLOR_BUFFER_BIT);
 
         for (const auto& particle : motion.particles()) {
-            particle.draw(camera);
+            particle.draw();
         }
 
         glfwSwapBuffers(window);

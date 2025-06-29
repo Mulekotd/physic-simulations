@@ -11,15 +11,24 @@
 #include "simulation/Motion.hpp"
 
 namespace Application {
+
+    inline auto gravity = [](Particle& particle, float) {
+        particle.addForce(Constants::GRAVITY * particle.getMass() * Vector3{0, -1, 0});
+    };
+
     inline GLFWwindow* window = nullptr;
-    inline Size windowSize = Size(Constants::DEFAULT_SCREEN_WIDTH, Constants::DEFAULT_SCREEN_HEIGHT);
+    inline Size screenSize = Size(Constants::DEFAULT_SCREEN_WIDTH, Constants::DEFAULT_SCREEN_HEIGHT);
     
-    inline Vector3 centerOffset = Vector3(-windowSize.width / 2.0f, -windowSize.height / 2.0f, 0.0f);
+    inline Vector3 centerOffset = Vector3(-screenSize.width / 2.0f, -screenSize.height / 2.0f, 0.0f);
 
-    inline Field field{centerOffset, windowSize};
-    inline Camera2D camera(&field, field.getSize());
+    inline Field field{centerOffset, screenSize};
+    inline Camera2D camera(&field, screenSize);
 
-    inline simulation::Motion motion(200, simulation::Law::Third);
+    inline simulation::Motion motion(
+        200,     // particles
+        field,   // world reference
+        gravity, // choose any ForceFunc
+        0.8f);   // restitution
 
     bool initialize();
     void update(float dt);

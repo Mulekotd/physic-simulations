@@ -26,3 +26,5 @@ public:
     
     void normalize();
 };
+
+Vector3 operator*(float scalar, const Vector3 other);
