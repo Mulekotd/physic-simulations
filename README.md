@@ -1,4 +1,4 @@
-# Physics Simulations
+# Physics Simulation
 
 ## 📌 Overview
 
@@ -47,8 +47,8 @@ Immediate Mode GUI library for C++ to provide interactive controls and visualiza
 Clone this repository to your local environment:
 
 ```bash
-git clone https://github.com/Mulekotd/physic-simulations.git
-cd physic-simulations
+git clone https://github.com/Mulekotd/physics-simulation.git
+cd physics-simulation
 ```
 
 ### 2. Install Dependencies
@@ -79,7 +79,7 @@ make
 ### 4. Run the Simulation
 
 ```bash
-./physic-simulations
+./physics-simulation
 ```
 
 ---
@@ -87,4 +87,4 @@ make
 ## 🤝 Feedback and Contributions
 
 Feedback, suggestions, and contributions are welcome!  
-If you have ideas for improvements or encounter any issues, please [open an issue](https://github.com/Mulekotd/physic-simulations/issues) on GitHub.
+If you have ideas for improvements or encounter any issues, please [open an issue](https://github.com/Mulekotd/physics-simulation/issues) on GitHub.
