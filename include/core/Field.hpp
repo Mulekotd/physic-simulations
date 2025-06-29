@@ -1,27 +1,29 @@
 #pragma once
 
-#include "Vector3.hpp"
+#include "common/Size.hpp"
+#include "common/Vector3.hpp"
 
 class Particle;
 
 class Field {
 public:
-    Vector3 position;
-
-    int width, height;
-    float gravity;
-
-    Field(Vector3 position, int width, int height, float gravity = 9.81f);
+    explicit Field(Vector3 position, Size size, float gravity = 9.81f);
     ~Field() = default;
 
-    int getWidth() const { return width; }
-    int getHeight() const { return height; }
-    Vector3 getPosition() const { return position; }
+    Size getSize() const noexcept { return m_size; }
+    Vector3 getPosition() const noexcept { return m_position; }
+    float getGravity() const noexcept { return m_gravity; }
 
-    void setPosition(Vector3 newPos) { position = newPos; }
-    void setWidth(int newWidth) { width = newWidth; }
-    void setHeight(int newHeight) { height = newHeight; }
+    void setSize(Size s) noexcept { m_size = s; }
+    void setPosition(Vector3 p) noexcept { m_position = p; }
+    void setGravity(float g) noexcept { m_gravity = g; }
 
+    bool contains(const Vector3& position) const;
     bool contains(const Particle& particle) const;
-    Vector3 getRelativePosition(const Particle& particle) const;
+    Vector3 getRelativePosition(const Vector3& position) const noexcept;
+
+private:
+    Size    m_size;
+    Vector3 m_position;
+    float   m_gravity;
 };

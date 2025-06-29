@@ -1,21 +1,22 @@
-#include <algorithm>
+#include "common/Size.hpp"
+#include "common/Vector3.hpp"
 
 #include "core/Camera2D.hpp"
 #include "core/Field.hpp"
-#include "core/Vector3.hpp"
 
-Camera2D::Camera2D(Field* field, int screenWidth, int screenHeight)
-    : field(field), screenWidth(screenWidth), screenHeight(screenHeight) {}
+// Constructor
 
-void Camera2D::setZoom(float value) {
-    zoom = std::max(0.1f, std::min(zoom * value, 10.0f));
-}
+Camera2D::Camera2D(Field* field, Size screenSize)
+    : m_field(field), m_screenSize(screenSize) {}
+
+// Methods
 
 Vector3 Camera2D::worldToNDC(const Vector3& position) const {
-    Vector3 relative = position - field->getPosition();
+    Vector3 relative = m_field->getRelativePosition(position);
+    Size size = m_field->getSize();
 
-    float x_ndc = ((relative.x / field->getWidth()) * 2.0f - 1.0f) * zoom;
-    float y_ndc = ((relative.y / field->getHeight()) * 2.0f - 1.0f) * zoom;
+    float x_ndc = ((relative.x / size.width) * 2.0f - 1.0f) * m_zoom;
+    float y_ndc = ((relative.y / size.height) * 2.0f - 1.0f) * m_zoom;
 
     return Vector3(x_ndc, y_ndc, 0);
 }
