@@ -10,12 +10,11 @@ simulation::Motion::Motion(std::size_t n, Field& world, ForceFunc fn, float rest
 
     std::mt19937 rng{ std::random_device{}() };
     std::uniform_real_distribution<float> pos(Constants::MIN_RANDOM_POS, Constants::MAX_RANDOM_POS), 
-                                          vel(Constants::MIN_RANDOM_VEL, Constants::MAX_RANDOM_VEL),
                                           m(Constants::MIN_RANDOM_MASS, Constants::MAX_RANDOM_MASS);
 
     for (std::size_t i = 0; i < n; ++i) {
         Vector3 position = Vector3{pos(rng), pos(rng), 0};
-        Vector3 velocity = Vector3{vel(rng), vel(rng), 0};
+        Vector3 velocity = Vector3{0, 0, 0};
 
         float mass = m(rng);
         float radius = std::cbrt(mass) * 0.3f;
@@ -36,9 +35,9 @@ void simulation::Motion::update(float dt) {
         resolveBounds(particle); // bounce off walls
     }
 
-    // O(n²) pair‑wise collision
     const std::size_t count = m_particles.size();
-
+    
+    // O(n²) pair‑wise collision
     for (std::size_t i = 0; i < count; ++i)
         for (std::size_t j = i + 1; j < count; ++j)
             resolveParticleCollision(m_particles[i], m_particles[j]);
@@ -108,7 +107,7 @@ void simulation::Motion::resolveParticleCollision(Particle& a, Particle& b) cons
 
     // --- 2.2 impulse to change velocities
     Vector3 relVel = b.getVelocity() - a.getVelocity();
-    float   vRelN  = relVel.dot(n);
+    float vRelN = relVel.dot(n);
 
     // already separating
     if (vRelN >= 0.0f) return;

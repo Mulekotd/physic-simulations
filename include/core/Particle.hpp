@@ -4,13 +4,16 @@
 
 #include "common/Vector3.hpp"
 
-class Camera2D;
+class Viewport;
 
 class Particle {
 public:
     using Id = std::uint32_t;
 
-    explicit Particle(const Vector3& position = {}, const Vector3& velocity = {}, float mass = 1.0f, float radius = 1.0f);
+    explicit Particle(const Vector3& position = {0, 0, 0},
+                      const Vector3& velocity = {0, 0, 0},
+                      float mass = 1.0f,
+                      float radius = 1.0f);
 
     Id getId() const noexcept { return m_id; }
     const Vector3& getPosition() const noexcept { return m_position; }
@@ -28,16 +31,10 @@ public:
     
     void addForce(const Vector3& f) noexcept { m_force += f; }
     void clearForces() noexcept { m_force = {}; }
-
-    void integrate(float dt) noexcept {
-        m_velocity += (m_force * (1.0f / m_mass)) * dt; // v += (F/m) * dt
-        m_position += m_velocity * dt; // x += v * dt
-
-        clearForces();
-    }
+    void integrate(float dt) noexcept;
 
 private:
-    Id       m_id;
+    Id       m_id; // TODO: Change int id to uuidv4
     Vector3  m_force, m_position, m_velocity;
     float    m_mass, m_radius;
 

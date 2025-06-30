@@ -3,6 +3,8 @@
 #include <vector>
 #include <functional>
 
+#include "common/Constants.hpp"
+
 #include "core/Field.hpp"
 #include "core/Particle.hpp"
 
@@ -13,9 +15,10 @@ namespace simulation {
     class Motion {
     public:
         Motion(std::size_t particleCount,
-               Field& world,
-               ForceFunc forceGenerator   = nullptr,
-               float    restitution       = 0.9f);
+               Field&      world,
+               ForceFunc   forceGenerator = nullptr,
+               float       restitution    = Constants::COEFFICIENT_OF_RESTITUTION
+               );
 
         void update(float dt);
 

@@ -1,17 +1,17 @@
 #include "common/Size.hpp"
 #include "common/Vector3.hpp"
 
-#include "core/Camera2D.hpp"
 #include "core/Field.hpp"
+#include "core/Viewport.hpp"
 
 // Constructor
 
-Camera2D::Camera2D(Field* field, Size screenSize)
+Viewport::Viewport(Field* field, Size screenSize)
     : m_field(field), m_screenSize(screenSize) {}
 
 // Methods
 
-Vector3 Camera2D::worldToNDC(const Vector3& position) const {
+Vector3 Viewport::worldToNDC(const Vector3& position) const {
     Vector3 relative = m_field->getRelativePosition(position);
     Size size = m_field->getSize();
 

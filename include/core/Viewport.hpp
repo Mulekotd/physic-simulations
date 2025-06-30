@@ -8,10 +8,10 @@
 
 class Field;
 
-class Camera2D {
+class Viewport {
 public:
-    explicit Camera2D(Field* field, Size screenSize);
-    ~Camera2D() = default;
+    explicit Viewport(Field* field, Size screenSize);
+    ~Viewport() = default;
 
     Size getScreenSize() const noexcept { return m_screenSize; }
     float getZoom() const noexcept { return m_zoom; }
@@ -19,7 +19,6 @@ public:
     void setScreenSize(Size s) noexcept { m_screenSize = s; }
     void setZoom(float factor) noexcept {
         if (factor <= 0.0f) return;
-
         m_zoom = std::clamp(m_zoom * factor, Constants::ZOOM_MIN, Constants::ZOOM_MAX);
     }
 

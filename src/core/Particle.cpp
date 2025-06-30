@@ -4,7 +4,6 @@
 #include "common/Application.hpp"
 #include "common/Constants.hpp"
 
-#include "core/Camera2D.hpp"
 #include "core/Particle.hpp"
 
 // Constructor
@@ -14,8 +13,8 @@ Particle::Particle(const Vector3& position, const Vector3& velocity, float mass,
 {}
 
 void Particle::draw() const {
-    Vector3 ndc = Application::camera.worldToNDC(m_position);
-    Vector3 ndcEdge = Application::camera.worldToNDC(m_position + Vector3{m_radius, 0, 0});
+    Vector3 ndc = Application::viewport.worldToNDC(m_position);
+    Vector3 ndcEdge = Application::viewport.worldToNDC(m_position + Vector3{m_radius, 0, 0});
 
     float ndcRadius = std::abs(ndcEdge.x - ndc.x);
 
@@ -39,4 +38,17 @@ void Particle::draw() const {
     }
 
     glEnd();
+}
+
+void Particle::integrate(float dt) noexcept {
+    // resulting acceleration (F = m·a → a = F/m)
+    const Vector3 a = m_force / m_mass;
+
+    // position with 2nd-order term (s = s₀ + v₀·dt + ½·a·dt²)
+    m_position += m_velocity * dt + a * (0.5f * dt * dt);
+
+    // exact velocity (v = v₀ + a·dt)
+    m_velocity += a * dt;
+
+    Particle::clearForces();
 }

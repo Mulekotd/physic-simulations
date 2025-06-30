@@ -1,5 +1,6 @@
 #pragma once
 
+#include "common/Constants.hpp"
 #include "common/Size.hpp"
 #include "common/Vector3.hpp"
 
@@ -7,7 +8,7 @@ class Particle;
 
 class Field {
 public:
-    explicit Field(Vector3 position, Size size, float gravity = 9.81f);
+    explicit Field(Vector3 position, Size size, float gravity = Constants::GRAVITY);
     ~Field() = default;
 
     Size getSize() const noexcept { return m_size; }
