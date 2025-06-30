@@ -1,12 +1,12 @@
 #include "common/Application.hpp"
+#include "common/InputManager.hpp"
 
 namespace Application {
-    const Size fieldSize = field.getSize();
 
     bool initialize() {
         if (!glfwInit()) return false;
 
-        window = glfwCreateWindow(fieldSize.width, fieldSize.height, "Physics Simulation", nullptr, nullptr);
+        window = glfwCreateWindow(screenSize.width, screenSize.height, Constants::Window::DEFAULT_TITLE, nullptr, nullptr);
 
         if (!window) {
             glfwTerminate();
@@ -14,7 +14,11 @@ namespace Application {
         }
 
         glfwMakeContextCurrent(window);
-        glViewport(0, 0, fieldSize.width, fieldSize.height);
+
+        glfwSetKeyCallback(window, InputManager::keyCallback);
+        glfwSetCursorPosCallback(window, InputManager::cursorCallback);
+
+        glViewport(0, 0, screenSize.width, screenSize.height);
 
         return true;
     }
@@ -27,11 +31,14 @@ namespace Application {
         glClearColor(0.1f, 0.1f, 0.15f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        for (const auto& particle : motion.particles()) {
-            particle.draw();
-        }
+        motion.render();
 
         glfwSwapBuffers(window);
+    }
+
+    void tick(float dt) {
+        update(dt);
+        render();
     }
 
     void cleanup() {

@@ -14,6 +14,10 @@ Vector3 Vector3::operator+(const Vector3& other) const {
     return Vector3(x + other.x, y + other.y, z + other.z);
 }
 
+Vector3 Vector3::operator-() const {
+    return Vector3(-x, -y, -z);
+}
+
 Vector3 Vector3::operator-(const Vector3& other) const {
     return Vector3(x - other.x, y - other.y, z - other.z);
 }
@@ -59,9 +63,9 @@ Vector3& Vector3::operator/=(float scalar) {
 }
 
 bool Vector3::operator==(const Vector3& other) const {
-    return std::fabs(x - other.x) < Constants::EPSILON &&
-           std::fabs(y - other.y) < Constants::EPSILON &&
-           std::fabs(z - other.z) < Constants::EPSILON;
+    return std::fabs(x - other.x) < Constants::Math::EPSILON &&
+           std::fabs(y - other.y) < Constants::Math::EPSILON &&
+           std::fabs(z - other.z) < Constants::Math::EPSILON;
 }
 
 bool Vector3::operator!=(const Vector3& other) const {
@@ -90,6 +94,15 @@ void Vector3::normalize() {
         y /= len;
         z /= len;
     }
+}
+
+Vector3 Vector3::normalized() const {
+    float len = length();
+
+    if (len > 0)
+        return Vector3(x / len, y / len, z / len);
+
+    return Vector3(0, 0, 0);
 }
 
 Vector3 operator*(float scalar, const Vector3 other) {

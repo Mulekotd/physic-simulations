@@ -3,35 +3,30 @@
 #include <GLFW/glfw3.h>
 
 #include "common/Constants.hpp"
-#include "common/Size.hpp"
+#include "common/Dimensions.hpp"
 
 #include "core/Field.hpp"
-#include "core/Viewport.hpp"
+#include "core/Camera2D.hpp"
 
+#include "simulation/ForceFunctions.hpp"
 #include "simulation/Motion.hpp"
 
 namespace Application {
 
-    inline auto gravity = [](Particle& particle, float) {
-        particle.addForce(Constants::GRAVITY * particle.getMass() * Vector3{0, -1, 0});
-    };
-
     inline GLFWwindow* window = nullptr;
-    inline Size screenSize = Size(Constants::DEFAULT_SCREEN_WIDTH, Constants::DEFAULT_SCREEN_HEIGHT);
-    
-    inline Vector3 centerOffset = Vector3(-screenSize.width / 2.0f, -screenSize.height / 2.0f, 0.0f);
+    inline Dimensions screenSize = Dimensions(Constants::Window::DEFAULT_WIDTH, Constants::Window::DEFAULT_HEIGHT);
 
-    inline Field field{centerOffset, screenSize};
-    inline Viewport viewport(&field, screenSize);
+    inline Field field(screenSize);
+    inline Camera2D camera(field);
 
     inline simulation::Motion motion(
-        200,     // particles
-        field,   // world reference
-        gravity, // ForceFunc
-        0.8f);   // restitution
+        200,                             // particles (TODO: Make this configurable)
+        field,                           // world reference
+        simulation::forces::gravity());  // ForceFunc
 
     bool initialize();
     void update(float dt);
     void render();
+    void tick(float dt);
     void cleanup();
 }

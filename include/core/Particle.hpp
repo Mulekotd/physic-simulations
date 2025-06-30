@@ -2,25 +2,24 @@
 
 #include <cstdint>
 
+#include "common/Types.hpp"
 #include "common/Vector3.hpp"
 
-class Viewport;
+class Camera2D;
 
 class Particle {
 public:
-    using Id = std::uint32_t;
-
     explicit Particle(const Vector3& position = {0, 0, 0},
                       const Vector3& velocity = {0, 0, 0},
                       float mass = 1.0f,
                       float radius = 1.0f);
 
-    Id getId() const noexcept { return m_id; }
-    const Vector3& getPosition() const noexcept { return m_position; }
-    const Vector3& getVelocity() const noexcept { return m_velocity; }
+    [[nodiscard]] Id getId() const noexcept { return m_id; }
+    [[nodiscard]] const Vector3& getPosition() const noexcept { return m_position; }
+    [[nodiscard]] const Vector3& getVelocity() const noexcept { return m_velocity; }
 
-    float getMass() const noexcept { return m_mass; }
-    float getRadius() const noexcept { return m_radius; }
+    [[nodiscard]] float getMass() const noexcept { return m_mass; }
+    [[nodiscard]] float getRadius() const noexcept { return m_radius; }
 
     void setPosition(const Vector3& p) noexcept { m_position = p; }
     void setVelocity(const Vector3& v) noexcept { m_velocity = v; }

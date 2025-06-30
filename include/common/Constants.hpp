@@ -1,32 +1,41 @@
 #pragma once
 
-#include <cmath>
-
 namespace Constants {
 
-    // Physics
-    // Gravitational acceleration (m/s²)
-    inline constexpr float GRAVITY = 9.81f;
-    inline constexpr float COEFFICIENT_OF_RESTITUTION = 0.8f;
+    namespace Physics {
+        inline constexpr float GRAVITY = 9.81f; // Gravitational acceleration (m/s²)
+        inline constexpr float RESTITUTION_COEFFICIENT = 0.8f; // Coefficient of restitution (elasticity)
+        inline constexpr float DYNAMIC_FRICTION_COEFFICIENT = 0.05f; // Coefficient of dynamic friction
+    }
 
-    // Math
-    inline constexpr float PI = static_cast<float>(M_PI);
-    inline constexpr float EPSILON = 1e-5f;
+    namespace Math {
+        inline constexpr float PI = 3.14159265358979323846f;
+        inline constexpr float EPSILON = 1e-5f;
+    }
 
-    inline constexpr float MIN_RANDOM_POS = -25.f;
-    inline constexpr float MAX_RANDOM_POS =  25.f;
+    namespace Random {
+        inline constexpr float POS_MIN = -25.f;
+        inline constexpr float POS_MAX =  25.f;
 
-    inline constexpr float MIN_RANDOM_VEL =  0.f;
-    inline constexpr float MAX_RANDOM_VEL =  10.f;
+        inline constexpr float VEL_MIN =  0.f;
+        inline constexpr float VEL_MAX =  10.f;
 
-    inline constexpr float MIN_RANDOM_MASS = 250.f;
-    inline constexpr float MAX_RANDOM_MASS = 2'000.f;
+        inline constexpr float MASS_MIN = 250.f;
+        inline constexpr float MASS_MAX = 2'000.f;
+    }
 
     // Zoom limits
-    inline constexpr float ZOOM_MIN = 0.1f;
-    inline constexpr float ZOOM_MAX = 10.0f;
+    inline constexpr float     ZOOM_MIN = 0.1f;
+    inline constexpr float     ZOOM_MAX = 10.0f;
 
-    // Screen size
-    inline constexpr int   DEFAULT_SCREEN_WIDTH = 800;
-    inline constexpr int   DEFAULT_SCREEN_HEIGHT = 600; 
+    namespace Simulation {
+        inline constexpr float CLUSTER_RADIUS = 50.0f; // Radius of the cluster of particles
+        inline constexpr float CLUSTER_MARGIN = 20.0f; // Margin around the cluster
+    }
+
+    namespace Window {
+        inline constexpr int         DEFAULT_WIDTH  = 800;
+        inline constexpr int         DEFAULT_HEIGHT = 600;
+        inline constexpr const char* DEFAULT_TITLE  = "Physics Simulation";
+    }
 }

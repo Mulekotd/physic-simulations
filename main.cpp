@@ -14,8 +14,7 @@ int main() {
 
         lastTime = currentTime;
 
-        Application::update(deltaTime);
-        Application::render();
+        Application::tick(deltaTime);
 
         glfwPollEvents();
     }

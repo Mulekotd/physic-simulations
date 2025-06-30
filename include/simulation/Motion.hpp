@@ -1,25 +1,25 @@
 #pragma once
 
 #include <vector>
-#include <functional>
 
 #include "common/Constants.hpp"
+#include "common/Types.hpp"
 
 #include "core/Field.hpp"
 #include "core/Particle.hpp"
 
+#include "simulation/ForceFunctions.hpp"
+
 namespace simulation {
     
-    using ForceFunc = std::function<void(Particle&, float)>;
-
     class Motion {
     public:
         Motion(std::size_t particleCount,
                Field&      world,
                ForceFunc   forceGenerator = nullptr,
-               float       restitution    = Constants::COEFFICIENT_OF_RESTITUTION
-               );
+               float       restitution    = Constants::Physics::RESTITUTION_COEFFICIENT);
 
+        void render();
         void update(float dt);
 
         const std::vector<Particle>& particles() const noexcept { return m_particles; }

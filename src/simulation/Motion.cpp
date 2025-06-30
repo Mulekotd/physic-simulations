@@ -1,32 +1,46 @@
 #include <random>
 
 #include "common/Constants.hpp"
+#include "common/Dimensions.hpp"
+#include "common/Types.hpp"
+
 #include "simulation/Motion.hpp"
 
-simulation::Motion::Motion(std::size_t n, Field& world, ForceFunc fn, float rest) 
-    : m_field(world), m_forceGen(fn), m_restitution(rest) 
+using namespace simulation;
+
+Motion::Motion(std::size_t n, Field& world, ForceFunc fn, float rest)
+    : m_field(world), m_forceGen(fn), m_restitution(rest)
 {
     m_particles.reserve(n);
 
+    Vector3 screenCenter = m_field.getPosition();
+
     std::mt19937 rng{ std::random_device{}() };
-    std::uniform_real_distribution<float> pos(Constants::MIN_RANDOM_POS, Constants::MAX_RANDOM_POS), 
-                                          m(Constants::MIN_RANDOM_MASS, Constants::MAX_RANDOM_MASS);
+    std::uniform_real_distribution<float> angle_distribuition(0.f, 2.f * Constants::Math::PI), 
+                                          radius_distribuition(0.f, Constants::Simulation::CLUSTER_RADIUS),
+                                          mass_distribuition(Constants::Random::MASS_MIN, Constants::Random::MASS_MAX);
 
     for (std::size_t i = 0; i < n; ++i) {
-        Vector3 position = Vector3{pos(rng), pos(rng), 0};
-        Vector3 velocity = Vector3{0, 0, 0};
+        float r = radius_distribuition(rng);  // cluster radius
+        float ang = angle_distribuition(rng); // cluster angle
 
-        float mass = m(rng);
+        Vector3 position{ screenCenter.x + r * std::cos(ang), screenCenter.y - r * std::sin(ang), 0.f };
+        Vector3 velocity{ 0.f, 0.f, 0.f }; // free fall → v0 = 0
+
+        float mass = mass_distribuition(rng);
         float radius = std::cbrt(mass) * 0.3f;
 
-        m_particles.emplace_back(position,
-                                 velocity,
-                                 mass,
-                                 radius);
+        m_particles.emplace_back(position, velocity, mass, radius);
     }
 }
 
-void simulation::Motion::update(float dt) {
+void Motion::render() {
+    for (const auto& particle : m_particles) {
+        particle.draw();
+    }
+}
+
+void Motion::update(float dt) {
     // apply external forces + integrate
     for (auto& particle : m_particles) {
         if (m_forceGen) m_forceGen(particle, dt);
@@ -46,31 +60,20 @@ void simulation::Motion::update(float dt) {
 // ------------------------------------------------------------------
 // Collision with world bounds
 // ------------------------------------------------------------------
-void simulation::Motion::resolveBounds(Particle& a) const {
+void Motion::resolveBounds(Particle& a) const {
     Vector3 rel = m_field.getRelativePosition(a.getPosition());
     Vector3 vel = a.getVelocity();
 
+    float halfW = m_field.getSize().width  * 0.5f;
+    float halfH = m_field.getSize().height * 0.5f;
+
     bool hit = false;
 
-    if (rel.x < 0) {
-        rel.x = 0;
-        vel.x = -vel.x * m_restitution;
-        hit = true;
-    } else if (rel.x > m_field.getSize().width) {
-        rel.x = m_field.getSize().width;
-        vel.x = -vel.x * m_restitution;
-        hit = true;
-    }
+    if (rel.x < -halfW) { rel.x = -halfW; vel.x = -vel.x * m_restitution; hit = true; }
+    else if (rel.x > halfW) { rel.x =  halfW; vel.x = -vel.x * m_restitution; hit = true; }
 
-    if (rel.y < 0) {
-        rel.y = 0;
-        vel.y = -vel.y * m_restitution;
-        hit = true;
-    } else if (rel.y > m_field.getSize().height) {
-        rel.y = m_field.getSize().height;
-        vel.y = -vel.y * m_restitution;
-        hit = true;
-    }
+    if (rel.y < -halfH) { rel.y = -halfH; vel.y = -vel.y * m_restitution; hit = true; }
+    else if (rel.y > halfH) { rel.y =  halfH; vel.y = -vel.y * m_restitution; hit = true; }
 
     if (hit) {
         a.setPosition(rel + m_field.getPosition());
@@ -81,8 +84,9 @@ void simulation::Motion::resolveBounds(Particle& a) const {
 // ------------------------------------------------------------------
 // Elastic collision between two discs
 // ------------------------------------------------------------------
-void simulation::Motion::resolveParticleCollision(Particle& a, Particle& b) const {
+void Motion::resolveParticleCollision(Particle& a, Particle& b) const {
     Vector3 delta = b.getPosition() - a.getPosition();
+
     float distanceSq = delta.dot(delta);
     float radiusSum = a.getRadius() + b.getRadius();
 
@@ -96,6 +100,7 @@ void simulation::Motion::resolveParticleCollision(Particle& a, Particle& b) cons
 
     // --- 2.1 push the discs apart (positional correction)
     Vector3 n = delta * (1.0f / dist); // collision normal
+
     float penetration = radiusSum - dist;
 
     float invMa = 1.0f / a.getMass();
