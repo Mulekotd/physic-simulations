@@ -8,9 +8,7 @@
 
 using namespace simulation;
 
-Motion::Motion(std::size_t n, Field& world, ForceFunc fn, float rest)
-    : m_field(world), m_forceGen(fn), m_restitution(rest)
-{
+Motion::Motion(std::size_t n, Field& world) : m_field(world) {
     m_particles.reserve(n);
 
     Vector3 screenCenter = m_field.getPosition();
@@ -32,6 +30,16 @@ Motion::Motion(std::size_t n, Field& world, ForceFunc fn, float rest)
 
         m_particles.emplace_back(position, velocity, mass, radius);
     }
+
+    // Initialize forces
+
+    auto gravity  = forces::gravity(m_field);
+    auto friction = forces::friction(m_field);
+
+    m_forceGen = [gravity, friction](Particle& p, float dt) {
+        gravity(p, dt);
+        friction(p, dt);
+    };
 }
 
 void Motion::render() {
@@ -61,6 +69,8 @@ void Motion::update(float dt) {
 // Collision with world bounds
 // ------------------------------------------------------------------
 void Motion::resolveBounds(Particle& a) const {
+    const float restitution = m_field.getRestitutionConstant();
+
     Vector3 rel = m_field.getRelativePosition(a.getPosition());
     Vector3 vel = a.getVelocity();
 
@@ -69,11 +79,11 @@ void Motion::resolveBounds(Particle& a) const {
 
     bool hit = false;
 
-    if (rel.x < -halfW) { rel.x = -halfW; vel.x = -vel.x * m_restitution; hit = true; }
-    else if (rel.x > halfW) { rel.x =  halfW; vel.x = -vel.x * m_restitution; hit = true; }
+    if (rel.x < -halfW) { rel.x = -halfW; vel.x = -vel.x * restitution; hit = true; }
+    else if (rel.x > halfW) { rel.x =  halfW; vel.x = -vel.x * restitution; hit = true; }
 
-    if (rel.y < -halfH) { rel.y = -halfH; vel.y = -vel.y * m_restitution; hit = true; }
-    else if (rel.y > halfH) { rel.y =  halfH; vel.y = -vel.y * m_restitution; hit = true; }
+    if (rel.y < -halfH) { rel.y = -halfH; vel.y = -vel.y * restitution; hit = true; }
+    else if (rel.y > halfH) { rel.y =  halfH; vel.y = -vel.y * restitution; hit = true; }
 
     if (hit) {
         a.setPosition(rel + m_field.getPosition());
@@ -117,7 +127,7 @@ void Motion::resolveParticleCollision(Particle& a, Particle& b) const {
     // already separating
     if (vRelN >= 0.0f) return;
 
-    float e = m_restitution; // 0 = inelastic, 1 = elastic
+    float e = m_field.getRestitutionConstant(); // 0 = inelastic, 1 = elastic
     float j = -(1 + e) * vRelN / invMassSum;
 
     Vector3 impulse = n * j;

@@ -10,7 +10,7 @@ class Field;
 
 class Camera2D {
 public:
-    explicit Camera2D(const Field& field) : m_field(&field) {}
+    explicit Camera2D(const Field& world) : m_field(&world) {}
     ~Camera2D() = default;
 
     [[nodiscard]] float getZoom() const noexcept { return m_zoom; }

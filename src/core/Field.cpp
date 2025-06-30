@@ -5,8 +5,12 @@
 
 // Constructor
 
-Field::Field(Dimensions size, float gravity)
-    : m_size(size), m_position(size.centerAsVector()), m_gravity(gravity) {}
+Field::Field(Dimensions size, float gravity, float friction, float restitution)
+    : m_size(size),
+      m_position(size.centerAsVector()),
+      m_gravity(gravity),
+      m_friction(friction),
+      m_restitution(restitution) {} // TODO: group physics constants in a struct
 
 // Methods
 
@@ -19,7 +23,6 @@ bool Field::contains(const Vector3& position) const noexcept {
     return (-halfW <= rel.x && rel.x <= halfW) &&
            (-halfH <= rel.y && rel.y <= halfH);
 }
-
 
 bool Field::contains(const Particle& particle) const noexcept {
     return contains(particle.getPosition());

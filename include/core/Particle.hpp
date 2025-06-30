@@ -33,7 +33,7 @@ public:
     void integrate(float dt) noexcept;
 
 private:
-    Id       m_id; // TODO: Change int id to uuidv4
+    Id       m_id; // TODO: Change id to uuidv4
     Vector3  m_force, m_position, m_velocity;
     float    m_mass, m_radius;
 

@@ -16,13 +16,12 @@ namespace Application {
     inline GLFWwindow* window = nullptr;
     inline Dimensions screenSize = Dimensions(Constants::Window::DEFAULT_WIDTH, Constants::Window::DEFAULT_HEIGHT);
 
-    inline Field field(screenSize);
-    inline Camera2D camera(field);
+    inline Field world(screenSize);
+    inline Camera2D camera(world);
 
     inline simulation::Motion motion(
-        200,                             // particles (TODO: Make this configurable)
-        field,                           // world reference
-        simulation::forces::gravity());  // ForceFunc
+        200,                             // particle count (TODO: Make this configurable)
+        world);                          // world reference
 
     bool initialize();
     void update(float dt);
