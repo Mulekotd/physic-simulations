@@ -1,5 +1,6 @@
+#include "system/InputManager.hpp"
+
 #include "common/Application.hpp"
-#include "common/InputManager.hpp"
 
 namespace Application {
 

@@ -21,6 +21,8 @@ public:
     [[nodiscard]] float getFrictionConstant() const noexcept { return m_friction; }
     [[nodiscard]] float getRestitutionConstant() const noexcept { return m_restitution; }
 
+    void reset();
+
     void setSize(Dimensions s) noexcept { m_size = s; }
     void setPosition(Vector3 p) noexcept { m_position = p; }
     void setGravityConstant(float g) noexcept { m_gravity = g; }

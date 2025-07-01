@@ -1,5 +1,6 @@
 #include <random>
 
+#include "common/Application.hpp"
 #include "common/Constants.hpp"
 #include "common/Dimensions.hpp"
 #include "common/Types.hpp"
@@ -31,7 +32,7 @@ Motion::Motion(std::size_t n, Field& world) : m_field(world) {
         m_particles.emplace_back(position, velocity, mass, radius);
     }
 
-    // Initialize forces
+    // initialize forces
 
     auto gravity  = forces::gravity(m_field);
     auto friction = forces::friction(m_field);

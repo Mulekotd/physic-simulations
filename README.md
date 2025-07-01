@@ -47,7 +47,7 @@ Immediate Mode GUI library for C++ to provide interactive controls and visualiza
 Clone this repository to your local environment:
 
 ```bash
-git clone https://github.com/Mulekotd/physics-simulation.git
+git clone --recurse-submodules https://github.com/Mulekotd/physics-simulation.git
 cd physics-simulation
 ```
 

@@ -2,6 +2,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "system/InputManager.hpp"
+
 #include "common/Constants.hpp"
 #include "common/Dimensions.hpp"
 
@@ -18,6 +20,8 @@ namespace Application {
 
     inline Field world(screenSize);
     inline Camera2D camera(world);
+
+    inline InputManager& input = InputManager::instance();
 
     inline simulation::Motion motion(
         200,                             // particle count (TODO: Make this configurable)

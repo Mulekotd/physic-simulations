@@ -14,6 +14,12 @@ Field::Field(Dimensions size, float gravity, float friction, float restitution)
 
 // Methods
 
+void Field::reset() {
+    m_gravity = Constants::Physics::GRAVITY;
+    m_restitution = Constants::Physics::RESTITUTION_COEFFICIENT;
+    m_position = m_size.centerAsVector();
+}
+
 bool Field::contains(const Vector3& position) const noexcept {
     Vector3 rel = getRelativePosition(position);
 

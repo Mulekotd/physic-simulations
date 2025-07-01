@@ -1,4 +1,4 @@
-#include "common/InputManager.hpp"
+#include "system/InputManager.hpp"
 
 namespace {
     inline InputManager& input = InputManager::instance();
