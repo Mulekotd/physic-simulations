@@ -13,14 +13,13 @@
 #include "core/Field.hpp"
 #include "core/Camera2D.hpp"
 
-#include "simulation/ForceFunctions.hpp"
 #include "simulation/Motion.hpp"
 
 namespace Application {
         
     inline RuntimeState context;
     
-    inline Dimensions resolution = Dimensions(Constants::Window::DEFAULT_WIDTH, Constants::Window::DEFAULT_HEIGHT);
+    inline Dimensions resolution = {Constants::Window::DEFAULT_WIDTH, Constants::Window::DEFAULT_HEIGHT};
 
     inline GLFWwindow* window = nullptr;
     inline InputManager& input = InputManager::Instance();

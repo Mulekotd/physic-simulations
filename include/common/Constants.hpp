@@ -18,8 +18,8 @@ namespace Constants {
         inline constexpr float MASS_MAX = 2000.f;
     }
 
-    inline constexpr float ZOOM_MIN = 0.1f;
-    inline constexpr float ZOOM_MAX = 10.0f;
+    inline constexpr float ZOOM_MIN = 1.0f;
+    inline constexpr float ZOOM_MAX = 2.0f;
 
     namespace Simulation {
         inline constexpr float CLUSTER_RADIUS = 50.0f; // Radius of the cluster of particles

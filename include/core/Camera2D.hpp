@@ -1,9 +1,5 @@
 #pragma once
 
-#include <algorithm>
-
-#include "common/Constants.hpp"
-#include "common/Dimensions.hpp"
 #include "common/Vector3.hpp"
 
 class Field;
@@ -11,20 +7,16 @@ class Field;
 class Camera2D {
 public:
     explicit Camera2D(const Field& world) : m_field(&world) {}
-    ~Camera2D() = default;
 
-    [[nodiscard]] float getZoom() const noexcept { return m_zoom; }
+    [[nodiscard]] float getZoom() const noexcept { return m_zoom;   }
+    [[nodiscard]] Vector3 getOffset() const noexcept { return m_offset; }
 
-    void setZoom(float factor) noexcept {
-        if (factor > 0.0f)
-            m_zoom = std::clamp(m_zoom * factor,
-                                Constants::ZOOM_MIN,
-                                Constants::ZOOM_MAX);
-    }
-
+    void setZoom(float factor) noexcept;
+    void move(const Vector3& delta) noexcept;
     Vector3 worldToNDC(const Vector3& position) const noexcept;
 
 private:
     const Field* m_field;
     float        m_zoom = 1.0f;
+    Vector3      m_offset = {0.f, 0.f, 0.f};
 };
