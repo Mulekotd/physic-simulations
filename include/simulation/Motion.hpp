@@ -11,12 +11,11 @@
 
 #include "simulation/ForceFunctions.hpp"
 
-namespace simulation {
+namespace Simulation {
 
     class Motion {
     public:
-        Motion(std::size_t particleCount,
-               Field&      world);
+        Motion(std::size_t particleCount, Field& world);
 
         void render();
         void update(float dt);

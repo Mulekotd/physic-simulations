@@ -1,10 +1,7 @@
-#include <GLFW/glfw3.h>
-#include <iostream>
-
 #include "common/Application.hpp"
 
 int main() {
-    if (!Application::initialize()) return -1;
+    if (!Application::Init()) return -1;
 
     double lastTime = glfwGetTime();
 
@@ -14,12 +11,12 @@ int main() {
 
         lastTime = currentTime;
 
-        Application::tick(deltaTime);
+        Application::Tick(deltaTime);
 
         glfwPollEvents();
     }
 
-    Application::cleanup();
+    Application::Cleanup();
 
     return 0;
 }

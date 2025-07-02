@@ -14,19 +14,12 @@ namespace Constants {
     }
 
     namespace Random {
-        inline constexpr float POS_MIN = -25.f;
-        inline constexpr float POS_MAX =  25.f;
-
-        inline constexpr float VEL_MIN =  0.f;
-        inline constexpr float VEL_MAX =  10.f;
-
         inline constexpr float MASS_MIN = 250.f;
-        inline constexpr float MASS_MAX = 2'000.f;
+        inline constexpr float MASS_MAX = 2000.f;
     }
 
-    // Zoom limits
-    inline constexpr float     ZOOM_MIN = 0.1f;
-    inline constexpr float     ZOOM_MAX = 10.0f;
+    inline constexpr float ZOOM_MIN = 0.1f;
+    inline constexpr float ZOOM_MAX = 10.0f;
 
     namespace Simulation {
         inline constexpr float CLUSTER_RADIUS = 50.0f; // Radius of the cluster of particles
@@ -34,8 +27,8 @@ namespace Constants {
     }
 
     namespace Window {
-        inline constexpr int         DEFAULT_WIDTH  = 800;
-        inline constexpr int         DEFAULT_HEIGHT = 600;
-        inline constexpr const char* DEFAULT_TITLE  = "Physics Simulation";
+        inline constexpr int DEFAULT_WIDTH = 800;
+        inline constexpr int DEFAULT_HEIGHT = 600;
+        inline constexpr const char* DEFAULT_TITLE = "Physics Simulation";
     }
 }

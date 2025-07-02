@@ -61,22 +61,34 @@ endif()
 # target_link_libraries(${PROJECT_NAME} PRIVATE glad::glad)
 
 # --------------------------------------------------------------------------- #
-# 5.  Dear ImGui (static library) – assumes git submodule in external/imgui
+# 5.  Dear ImGui (manual installation)
 # --------------------------------------------------------------------------- #
-# set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/external/imgui)
+set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/external/imgui)
 
-# file(GLOB IMGUI_SRC
-#      ${IMGUI_DIR}/*.cpp
-#      ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
-#      ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp)
+file(GLOB IMGUI_SRC
+    ${IMGUI_DIR}/imgui.cpp
+    ${IMGUI_DIR}/imgui_draw.cpp
+    ${IMGUI_DIR}/imgui_tables.cpp
+    ${IMGUI_DIR}/imgui_widgets.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+)
 
-# add_library(imgui STATIC ${IMGUI_SRC})
-# target_include_directories(imgui PUBLIC
-#     ${IMGUI_DIR}
-#     ${IMGUI_DIR}/backends)
+add_library(imgui STATIC ${IMGUI_SRC})
 
-# target_link_libraries(imgui PUBLIC glfw OpenGL::GL)
-# target_link_libraries(${PROJECT_NAME} PRIVATE imgui)
+target_include_directories(imgui PUBLIC
+    ${IMGUI_DIR}
+    ${IMGUI_DIR}/backends
+)
+
+target_link_libraries(imgui PUBLIC glfw OpenGL::GL)
+target_link_libraries(${PROJECT_NAME} PRIVATE imgui)
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+    ${IMGUI_DIR}
+    ${IMGUI_DIR}/backends
+)
 
 # --------------------------------------------------------------------------- #
 # 6.  Extra platform‑specific libraries

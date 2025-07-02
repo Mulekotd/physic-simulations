@@ -6,12 +6,11 @@
 #include "core/Field.hpp"
 #include "core/Particle.hpp"
 
-namespace simulation::forces {
-    // gravity (weight force)
+namespace Simulation::Forces {
+    // weight force
     inline auto gravity(const Field& world) {
         return [&world](Particle& particle, float) {
             float g = world.getGravityConstant();
-            
             particle.addForce(Vector3{0, -1, 0} * g * particle.getMass());
         };
     }

@@ -86,16 +86,6 @@ float Vector3::length() const {
     return std::sqrt(x * x + y * y + z * z);
 }
 
-void Vector3::normalize() {
-    float len = length();
-    
-    if (len > 0) {
-        x /= len;
-        y /= len;
-        z /= len;
-    }
-}
-
 Vector3 Vector3::normalized() const {
     float len = length();
 

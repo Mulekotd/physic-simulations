@@ -1,10 +1,13 @@
 #pragma once
 
+#include <memory>
+
 #include <GLFW/glfw3.h>
 
 #include "system/InputManager.hpp"
 
 #include "common/Constants.hpp"
+#include "common/Context.hpp"
 #include "common/Dimensions.hpp"
 
 #include "core/Field.hpp"
@@ -14,22 +17,22 @@
 #include "simulation/Motion.hpp"
 
 namespace Application {
+        
+    inline RuntimeState context;
+    
+    inline Dimensions resolution = Dimensions(Constants::Window::DEFAULT_WIDTH, Constants::Window::DEFAULT_HEIGHT);
 
     inline GLFWwindow* window = nullptr;
-    inline Dimensions screenSize = Dimensions(Constants::Window::DEFAULT_WIDTH, Constants::Window::DEFAULT_HEIGHT);
-
-    inline Field world(screenSize);
-    inline Camera2D camera(world);
-
     inline InputManager& input = InputManager::instance();
 
-    inline simulation::Motion motion(
-        200,                             // particle count (TODO: Make this configurable)
-        world);                          // world reference
+    inline Field world(resolution);
+    inline Camera2D camera(world);
 
-    bool initialize();
-    void update(float dt);
-    void render();
-    void tick(float dt);
-    void cleanup();
+    inline std::unique_ptr<Simulation::Motion> motion = nullptr;
+
+    bool Init();
+    void Update(float dt);
+    void Render();
+    void Tick(float dt);
+    void Cleanup();
 }

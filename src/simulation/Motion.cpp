@@ -7,7 +7,7 @@
 
 #include "simulation/Motion.hpp"
 
-using namespace simulation;
+using namespace Simulation;
 
 Motion::Motion(std::size_t n, Field& world) : m_field(world) {
     m_particles.reserve(n);
@@ -34,8 +34,8 @@ Motion::Motion(std::size_t n, Field& world) : m_field(world) {
 
     // initialize forces
 
-    auto gravity  = forces::gravity(m_field);
-    auto friction = forces::friction(m_field);
+    auto gravity = Forces::gravity(m_field);
+    auto friction = Forces::friction(m_field);
 
     m_forceGen = [gravity, friction](Particle& p, float dt) {
         gravity(p, dt);
