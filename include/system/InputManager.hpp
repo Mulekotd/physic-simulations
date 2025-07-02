@@ -6,7 +6,7 @@
 
 class InputManager {
 public:
-    static InputManager& instance();
+    static InputManager& Instance();
 
     // Query helpers
     [[nodiscard]] bool isKeyPressed(int key)   const noexcept;
@@ -14,9 +14,9 @@ public:
     void cursorPos(double& x, double& y) const noexcept { x = m_mouseX; y = m_mouseY; }
 
     // GLFW callbacks
-    static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-    static void mouseCallback(GLFWwindow* window, int button, int action, int mods);
-    static void cursorCallback(GLFWwindow* window, double xpos, double ypos);
+    static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void MouseCallback(GLFWwindow* window, int button, int action, int mods);
+    static void CursorCallback(GLFWwindow* window, double xpos, double ypos);
 
 private:
     InputManager() = default;

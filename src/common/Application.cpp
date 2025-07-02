@@ -22,8 +22,8 @@ namespace Application {
         glfwMakeContextCurrent(window); 
         ImGuiLayer::Init(window);
 
-        glfwSetKeyCallback(window, InputManager::keyCallback);
-        glfwSetCursorPosCallback(window, InputManager::cursorCallback);
+        glfwSetKeyCallback(window, InputManager::KeyCallback);
+        glfwSetCursorPosCallback(window, InputManager::CursorCallback);
 
         glViewport(0, 0, resolution.width, resolution.height);
 

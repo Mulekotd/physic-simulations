@@ -3,12 +3,12 @@
 #include "system/InputManager.hpp"
 
 namespace {
-    inline InputManager& input = InputManager::instance();
+    inline InputManager& input = InputManager::Instance();
 }
 
 /* ---------- Singleton --------------------------------------------------- */
 
-InputManager& InputManager::instance() {
+InputManager& InputManager::Instance() {
     static InputManager s;
     return s;
 }
@@ -25,21 +25,21 @@ bool InputManager::isMouseButton(int btn) const noexcept {
 
 /* ---------- GLFW Callbacks ---------------------------------------------- */
 
-void InputManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+void InputManager::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);
 
     if (key >= 0 && key < static_cast<int>(input.m_keys.size()))
         input.m_keys[key] = (action != GLFW_RELEASE);
 }
 
-void InputManager::mouseCallback(GLFWwindow* window, int button, int action, int mods) {
+void InputManager::MouseCallback(GLFWwindow* window, int button, int action, int mods) {
     ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods);
 
     if (button >= 0 && button < static_cast<int>(input.m_mouse.size()))
         input.m_mouse[button] = (action != GLFW_RELEASE);
 }
 
-void InputManager::cursorCallback(GLFWwindow* window, double xpos, double ypos) {
+void InputManager::CursorCallback(GLFWwindow* window, double xpos, double ypos) {
     ImGui_ImplGlfw_CursorPosCallback(window, xpos, ypos);
 
     input.m_mouseX = xpos;

@@ -3,8 +3,6 @@
 #include "core/Field.hpp"
 #include "core/Particle.hpp"
 
-// Constructor
-
 Field::Field(Dimensions size, float gravity, float friction, float restitution)
     : m_size(size),
       m_position(size.centerAsVector()),
@@ -12,7 +10,6 @@ Field::Field(Dimensions size, float gravity, float friction, float restitution)
       m_friction(friction),
       m_restitution(restitution) {} // TODO: group physics constants in a struct
 
-// Methods
 
 void Field::reset() {
     m_gravity = Constants::Physics::GRAVITY;

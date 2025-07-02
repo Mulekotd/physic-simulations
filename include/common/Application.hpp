@@ -23,7 +23,7 @@ namespace Application {
     inline Dimensions resolution = Dimensions(Constants::Window::DEFAULT_WIDTH, Constants::Window::DEFAULT_HEIGHT);
 
     inline GLFWwindow* window = nullptr;
-    inline InputManager& input = InputManager::instance();
+    inline InputManager& input = InputManager::Instance();
 
     inline Field world(resolution);
     inline Camera2D camera(world);
