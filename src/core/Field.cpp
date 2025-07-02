@@ -8,23 +8,24 @@ Field::Field(Dimensions size, float gravity, float friction, float restitution)
       m_position(size.centerAsVector()),
       m_gravity(gravity),
       m_friction(friction),
-      m_restitution(restitution) {} // TODO: group physics constants in a struct
-
+      m_restitution(restitution) 
+{} // TODO: group physics constants in a single struct
 
 void Field::reset() {
     m_gravity = Constants::Physics::GRAVITY;
+    m_friction = Constants::Physics::DYNAMIC_FRICTION_COEFFICIENT;
     m_restitution = Constants::Physics::RESTITUTION_COEFFICIENT;
     m_position = m_size.centerAsVector();
 }
 
 bool Field::contains(const Vector3& position) const noexcept {
-    Vector3 rel = getRelativePosition(position);
+    Vector3 relative = getRelativePosition(position);
 
     float halfW = m_size.width  * 0.5f;
     float halfH = m_size.height * 0.5f;
 
-    return (-halfW <= rel.x && rel.x <= halfW) &&
-           (-halfH <= rel.y && rel.y <= halfH);
+    return (-halfW <= relative.x && relative.x <= halfW) &&
+           (-halfH <= relative.y && relative.y <= halfH);
 }
 
 bool Field::contains(const Particle& particle) const noexcept {

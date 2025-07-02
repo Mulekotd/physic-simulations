@@ -1,3 +1,5 @@
+#include <cstdio>
+
 #include "imgui.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
@@ -12,14 +14,19 @@ namespace Application {
     bool Init() {
         if (!glfwInit()) return false;
 
-        window = glfwCreateWindow(resolution.width, resolution.height, Constants::Window::DEFAULT_TITLE, nullptr, nullptr);
+        window = glfwCreateWindow(resolution.width,
+                                  resolution.height,
+                                  Constants::Window::DEFAULT_TITLE,
+                                  nullptr,
+                                  nullptr);
 
         if (!window) {
             glfwTerminate();
             return false;
         }
 
-        glfwMakeContextCurrent(window); 
+        glfwMakeContextCurrent(window);
+        
         ImGuiLayer::Init(window);
 
         // GLFW callbacks setup
@@ -46,11 +53,16 @@ namespace Application {
 
         // ImGui rendering
         ImGuiLayer::BeginFrame();
+
+        ImGui::SetNextWindowSize(ImVec2(350, 150), ImGuiCond_FirstUseEver);
         ImGui::Begin("Simulation Control");
 
         ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
 
-        ImGui::SliderInt("Particles", &context.count, 100, 500);
+        ImGui::SliderInt("Particles",
+                         &context.count,
+                         Constants::Simulation::PARTICLE_COUNT_MIN,
+                         Constants::Simulation::PARTICLE_COUNT_MAX);
 
         if (ImGui::Button(context.isRunning ? "Restart" : "Start")) {
             context.isRunning = true;

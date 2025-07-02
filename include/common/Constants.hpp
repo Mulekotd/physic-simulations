@@ -24,6 +24,9 @@ namespace Constants {
     namespace Simulation {
         inline constexpr float CLUSTER_RADIUS = 50.0f; // Radius of the cluster of particles
         inline constexpr float CLUSTER_MARGIN = 20.0f; // Margin around the cluster
+
+        inline constexpr int PARTICLE_COUNT_MIN = 25;
+        inline constexpr int PARTICLE_COUNT_MAX = 500;
     }
 
     namespace Window {

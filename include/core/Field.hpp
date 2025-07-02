@@ -21,8 +21,6 @@ public:
     [[nodiscard]] float getFrictionConstant() const noexcept { return m_friction; }
     [[nodiscard]] float getRestitutionConstant() const noexcept { return m_restitution; }
 
-    void reset();
-
     void setSize(Dimensions s) noexcept { m_size = s; }
     void setPosition(Vector3 p) noexcept { m_position = p; }
     void setGravityConstant(float g) noexcept { m_gravity = g; }
@@ -32,6 +30,8 @@ public:
     bool contains(const Vector3& position) const noexcept;
     bool contains(const Particle& particle) const noexcept;
     Vector3 getRelativePosition(const Vector3& position) const noexcept;
+
+    void reset();
 
 private:
     Dimensions m_size;

@@ -1,7 +1,7 @@
 #pragma once
 
 struct RuntimeState {
-    bool isRunning = false;
+    int count = 250;
     
-    int count = 200;
+    bool isRunning = false;
 };

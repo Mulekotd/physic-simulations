@@ -6,10 +6,12 @@
 
 #include "core/Particle.hpp"
 
-// Constructor
-
 Particle::Particle(const Vector3& position, const Vector3& velocity, float mass, float radius)
-    : m_id{ m_nextId++ }, m_position{ position }, m_velocity{ velocity }, m_mass{ mass }, m_radius{ radius }
+    : m_id(m_nextId++),
+      m_position(position), 
+      m_velocity(velocity),
+      m_mass(mass),
+      m_radius(radius)
 {}
 
 void Particle::draw() const {
@@ -25,7 +27,7 @@ void Particle::draw() const {
     glVertex2f(ndc.x, ndc.y);
 
     // Circumference
-    int segments = std::clamp(static_cast<int>(m_radius * 10), 16, 128);
+    int segments = std::clamp(static_cast<int>(m_radius * 10), 24, 128);
     float step = 2.0f * Constants::Math::PI / segments;
 
     for (int i = 0; i <= segments; ++i) {

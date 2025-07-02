@@ -12,18 +12,18 @@ using namespace Simulation;
 Motion::Motion(std::size_t n, Field& world) : m_field(world) {
     m_particles.reserve(n);
 
-    Vector3 screenCenter = m_field.getPosition();
+    Vector3 center = m_field.getPosition();
 
     std::mt19937 rng{ std::random_device{}() };
-    std::uniform_real_distribution<float> angle_distribuition(0.f, 2.f * Constants::Math::PI), 
-                                          radius_distribuition(0.f, Constants::Simulation::CLUSTER_RADIUS),
-                                          mass_distribuition(Constants::Random::MASS_MIN, Constants::Random::MASS_MAX);
+    std::uniform_real_distribution<float> angle_distribuition(0.f, 2.f * Constants::Math::PI);
+    std::uniform_real_distribution<float> radius_distribuition(0.f, Constants::Simulation::CLUSTER_RADIUS);
+    std::uniform_real_distribution<float> mass_distribuition(Constants::Random::MASS_MIN, Constants::Random::MASS_MAX);
 
     for (std::size_t i = 0; i < n; ++i) {
         float r = radius_distribuition(rng);  // cluster radius
         float ang = angle_distribuition(rng); // cluster angle
 
-        Vector3 position{ screenCenter.x + r * std::cos(ang), screenCenter.y - r * std::sin(ang), 0.f };
+        Vector3 position{ center.x + r * std::cos(ang), center.y - r * std::sin(ang), 0.f };
         Vector3 velocity{ 0.f, 0.f, 0.f }; // free fall → v0 = 0
 
         float mass = mass_distribuition(rng);
@@ -32,14 +32,14 @@ Motion::Motion(std::size_t n, Field& world) : m_field(world) {
         m_particles.emplace_back(position, velocity, mass, radius);
     }
 
-    // initialize forces
+    // forces initialization
 
     auto gravity = Forces::gravity(m_field);
     auto friction = Forces::friction(m_field);
 
-    m_forceGen = [gravity, friction](Particle& p, float dt) {
-        gravity(p, dt);
-        friction(p, dt);
+    m_forceGen = [gravity, friction](Particle& particle, float dt) {
+        gravity(particle, dt);
+        friction(particle, dt);
     };
 }
 
