@@ -44,7 +44,7 @@ void InputManager::CursorCallback(GLFWwindow* window, double xpos, double ypos) 
         float worldDX = static_cast<float>(-dx) * (size.width  / Application::resolution.width ) * Application::camera.getZoom();
         float worldDY = static_cast<float>( dy) * (size.height / Application::resolution.height) * Application::camera.getZoom();
 
-        Application::camera.move({worldDX, worldDY, 0.f});
+        Application::camera.move({ worldDX, worldDY, 0.f });
     }
 
     input.m_mouseX = xpos;
@@ -54,7 +54,7 @@ void InputManager::CursorCallback(GLFWwindow* window, double xpos, double ypos) 
 void InputManager::FramebufferSizeCallback(GLFWwindow*, int width, int height) {
     glViewport(0, 0, width, height);
 
-    Application::resolution = Dimensions(width, height);
+    Application::resolution = { width, height };
     Application::world.setSize(Application::resolution);
     Application::world.setPosition(Application::resolution.centerAsVector());
 }
@@ -69,15 +69,13 @@ void InputManager::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 void InputManager::MouseCallback(GLFWwindow* window, int button, int action, int mods) {
     ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods);
 
-    if (ImGui::GetIO().WantCaptureMouse)
-        return;
+    if (ImGui::GetIO().WantCaptureMouse) return;
 
     if (button == GLFW_MOUSE_BUTTON_RIGHT) {
         input.m_panning = (action == GLFW_PRESS);
 
-        if (input.m_panning) {
+        if (input.m_panning) 
             glfwGetCursorPos(window, &input.m_prevX, &input.m_prevY);
-        }
     }
 
     if (button >= 0 && button < static_cast<int>(input.m_mouse.size()))
@@ -85,16 +83,12 @@ void InputManager::MouseCallback(GLFWwindow* window, int button, int action, int
 }
 
 void InputManager::ScrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+    constexpr float factor = 1.1f;
+
     ImGui_ImplGlfw_ScrollCallback(window, xoffset, yoffset);
 
-    if (ImGui::GetIO().WantCaptureMouse) 
-        return;
+    if (ImGui::GetIO().WantCaptureMouse) return;
 
-    constexpr float zoomFactor = 1.1f;
-
-    if (yoffset > 0) {
-        Application::camera.setZoom(zoomFactor);
-    } else if (yoffset < 0) {
-        Application::camera.setZoom(1.0f / zoomFactor);
-    }
+    if (yoffset > 0) { Application::camera.setZoom(factor); }
+    else if (yoffset < 0) { Application::camera.setZoom(1.0f / factor); }
 }

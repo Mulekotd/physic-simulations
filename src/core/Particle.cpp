@@ -16,12 +16,12 @@ Particle::Particle(const Vector3& position, const Vector3& velocity, float mass,
 
 void Particle::draw() const {
     Vector3 ndc = Application::camera.worldToNDC(m_position);
-    Vector3 ndcEdge = Application::camera.worldToNDC(m_position + Vector3{m_radius, 0, 0});
+    Vector3 ndcEdge = Application::camera.worldToNDC(m_position + Vector3(m_radius, 0, 0));
 
     float ndcRadius = std::abs(ndcEdge.x - ndc.x);
 
     glBegin(GL_TRIANGLE_FAN);
-    glColor3f(1.0f, 1.0f, 1.0f);
+    glColor3f(1.f, 1.f, 1.f);
 
     // Circle center
     glVertex2f(ndc.x, ndc.y);

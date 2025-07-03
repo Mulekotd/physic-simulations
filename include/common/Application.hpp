@@ -19,7 +19,7 @@ namespace Application {
         
     inline RuntimeState context;
     
-    inline Dimensions resolution = {Constants::Window::DEFAULT_WIDTH, Constants::Window::DEFAULT_HEIGHT};
+    inline Dimensions resolution = { Constants::Window::DEFAULT_WIDTH, Constants::Window::DEFAULT_HEIGHT };
 
     inline GLFWwindow* window = nullptr;
     inline InputManager& input = InputManager::Instance();

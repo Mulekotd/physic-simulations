@@ -89,8 +89,7 @@ float Vector3::length() const {
 Vector3 Vector3::normalized() const {
     float len = length();
 
-    if (len > 0)
-        return Vector3(x / len, y / len, z / len);
+    if (len > 0) return Vector3(x / len, y / len, z / len);
 
     return Vector3(0, 0, 0);
 }
